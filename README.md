@@ -1,6 +1,6 @@
 # SAP Annual Budget - Get Email (UiPath RPA)
 
-This RPA project automates the retrieval of **Annual Budget emails** from different departments in real-time, classifies them into 3 types (**HO, BU, SU**), and saves the attachments into a shared folder for further processing.  
+This RPA project automates the retrieval of Annual Budget emails from different departments in real-time, classifies them into 3 types (**HO, BU, SU**), and saves the attachments into a shared folder for further processing.  
 
 This is the first part of the **SAP Annual Budget Automation**, followed by the Compile process.
 
@@ -60,5 +60,6 @@ The structured output will later be used by the **SAP Annual Budget Compile** au
 
 For questions, improvements, or collaboration:  
 
-- Email: **fadillah650@gmail.com**  
+- Email: fadillah650@gmail.com 
 - LinkedIn: [Enrico Naufal Fadilla](https://linkedin.com/in/enrico-naufal-fadilla-54338a256)  
+
