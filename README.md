@@ -1,64 +1,40 @@
-# SAP Annual Budget - Get Email (UiPath RPA)
+### Documentation is included in the Documentation folder ###
 
-This RPA project automates the retrieval of **Annual Budget emails** from different departments in real-time, classifies them into 3 types (**HO, BU, SU**), and saves the attachments into a shared folder for further processing.  
+[REFrameWork Documentation](https://github.com/UiPath/ReFrameWork/blob/master/Documentation/REFramework%20documentation.pdf)
 
-This is the first part of the **SAP Annual Budget Automation**, followed by the Compile process.
+### REFrameWork Template ###
+**Robotic Enterprise Framework**
 
----
+* Built on top of *Transactional Business Process* template
+* Uses *State Machine* layout for the phases of automation project
+* Offers high level logging, exception handling and recovery
+* Keeps external settings in *Config.xlsx* file and Orchestrator assets
+* Pulls credentials from Orchestrator assets and *Windows Credential Manager*
+* Gets transaction data from Orchestrator queue and updates back status
+* Takes screenshots in case of system exceptions
 
-## 📌 Project Description
 
-The bot continuously monitors incoming emails containing the subject **"Annual Budget"**, validates the sender/department, and saves attachments into the designated department folder.  
-The structured output will later be used by the **SAP Annual Budget Compile** automation.
+### How It Works ###
 
----
+1. **INITIALIZE PROCESS**
+ + ./Framework/*InitiAllSettings* - Load configuration data from Config.xlsx file and from assets
+ + ./Framework/*GetAppCredential* - Retrieve credentials from Orchestrator assets or local Windows Credential Manager
+ + ./Framework/*InitiAllApplications* - Open and login to applications used throughout the process
 
-## ✨ Key Features
+2. **GET TRANSACTION DATA**
+ + ./Framework/*GetTransactionData* - Fetches transactions from an Orchestrator queue defined by Config("OrchestratorQueueName") or any other configured data source
 
-- Real-time monitoring of incoming emails  
-- Filters emails with subject containing **"Annual Budget"**  
-- Classifies attachments by department (**HO, BU, SU**)  
-- Saves files to designated shared folders  
-- Logging and error handling for missing/invalid files  
-- Built with **UiPath REFramework** for robustness  
+3. **PROCESS TRANSACTION**
+ + *Process* - Process trasaction and invoke other workflows related to the process being automated 
+ + ./Framework/*SetTransactionStatus* - Updates the status of the processed transaction (Orchestrator transactions by default): Success, Business Rule Exception or System Exception
 
----
+4. **END PROCESS**
+ + ./Framework/*CloseAllApplications* - Logs out and closes applications used throughout the process
 
-## 📂 Project Structure
 
-| Folder/File        | Description                                                   |
-|--------------------|---------------------------------------------------------------|
-| `Main.xaml`        | Entry point of the automation                                |
-| `GetFromEmail.xaml`| Workflow to extract and save email attachments               |
-| `Data/`            | Configurations and other supporting files                    |
-| `Data/Output/`     | Output folder for downloaded attachments                     |
-| `project.json`     | UiPath project metadata                                      |
-| `README.md`        | This documentation                                           |
+### For New Project ###
 
----
-
-## 🚀 How to Run
-
-1. Open `Main.xaml` in UiPath Studio.  
-2. Configure your email account (Outlook/Exchange/SMTP as required).  
-3. Update the `Config.xlsx` or arguments if needed for folder paths.  
-4. Run the process manually or deploy to **UiPath Orchestrator** for unattended execution.  
-5. Check the `Data/Output/` subfolders (**HO, BU, SU**) for saved attachments.  
-
----
-
-## 📋 Requirements
-
-- UiPath Studio (Enterprise, v22.10 or higher)  
-- Outlook/Exchange mailbox access  
-- Access to the designated shared folder  
-- SMTP/Outlook configured for notifications (if enabled)  
-
----
-
-## 📬 Contact
-
-For questions, improvements, or collaboration:  
-
-- Email: **fadillah650@gmail.com**  
-- LinkedIn: [Enrico Naufal Fadilla](https://linkedin.com/in/enrico-naufal-fadilla-54338a256)  
+1. Check the Config.xlsx file and add/customize any required fields and values
+2. Implement InitiAllApplications.xaml and CloseAllApplicatoins.xaml workflows, linking them in the Config.xlsx fields
+3. Implement GetTransactionData.xaml and SetTransactionStatus.xaml according to the transaction type being used (Orchestrator queues by default)
+4. Implement Process.xaml workflow and invoke other workflows related to the process being automated
